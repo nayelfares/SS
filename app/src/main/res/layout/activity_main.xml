@@ -1,59 +1,79 @@
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <uz.jamshid.lib.WinterLayout
-        android:id="@+id/winter"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:background="#11555555"
+        android:layout_height="?attr/actionBarSize">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="S &amp; S"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorAccent"/>
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/create"
+                    android:src="@drawable/ic_create"
+                    android:onClick="create"
+                    android:background="#11555555"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="4dp"/>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:snowCount="50"
-        android:background="@color/colorAccent"
-        app:minSize="10"
-        app:maxSize="15"/>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:translationZ="1dp"
-        app:cardBackgroundColor="#ffffffff"
-        android:layout_margin="64dp"
-        android:outlineAmbientShadowColor="@color/cardview_dark_background"
-        app:cardCornerRadius="6dp">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textColor="#000"
-                android:text="Login"/>
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:textSize="14sp"
-                android:textColor="#000"
-                android:gravity="center"
-                android:textColorHint="#99444444"
-                android:hint="email"/>
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:hint="*******"
-                android:gravity="center"
-                android:textColorHint="#99444444"
-                android:inputType="textPassword"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:text="Submit"
-                android:onClick="login"
-                android:layout_marginBottom="8dp"/>
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Sent"
+                    android:id="@+id/sent"
+                    android:textSize="14sp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/button_selected"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Reveived"
+                    android:id="@+id/reveived"
+                    android:textSize="14sp"
+                    android:gravity="center"/>
+            </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
