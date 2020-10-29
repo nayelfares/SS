@@ -11,7 +11,7 @@ import com.aou.ss.MainActivity
 import com.aou.ss.R
 import com.aou.ss.vm.LoginViewModel
 
-class Login : BaseActivity() ,LoginView {
+class LoginActivity : BaseActivity() ,LoginView {
     lateinit var loginViewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
