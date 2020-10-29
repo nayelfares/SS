@@ -33,17 +33,21 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:id="@+id/email"
                 android:layout_marginTop="16dp"
                 android:textSize="14sp"
+                android:text="manager@massage.com"
                 android:textColor="#000"
                 android:gravity="center"
                 android:textColorHint="#99444444"
                 android:hint="email"/>
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:hint="*******"
+                android:text="123456789"
                 android:gravity="center"
                 android:textColorHint="#99444444"
                 android:inputType="textPassword"/>
