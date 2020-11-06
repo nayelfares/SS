@@ -32,7 +32,7 @@ class LoginActivity : BaseActivity() ,LoginView {
     }
 
     override fun onSuccess(token: String) {
-        AuthManager.token=token
+        AuthManager.token="Bearer $token"
         startActivity(Intent(this, MainActivity::class.java))
     }
 
