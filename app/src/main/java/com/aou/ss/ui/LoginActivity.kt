@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import com.aou.ss.MainActivity
 import com.aou.ss.R
+import com.aou.ss.auth.AuthManager
 import com.aou.ss.vm.LoginViewModel
 
 class LoginActivity : BaseActivity() ,LoginView {
@@ -31,6 +32,7 @@ class LoginActivity : BaseActivity() ,LoginView {
     }
 
     override fun onSuccess(token: String) {
+        AuthManager.token=token
         startActivity(Intent(this, MainActivity::class.java))
     }
 

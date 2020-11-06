@@ -113,8 +113,7 @@ class NewFile : AppCompatActivity() {
         return null
     }
 
-    fun getDataColumn(uri: Uri?, selection: String?,
-                      selectionArgs: Array<String>?): String? {
+    fun getDataColumn(uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(
@@ -156,14 +155,11 @@ class NewFile : AppCompatActivity() {
     fun isGooglePhotosUri(uri: Uri?): Boolean {
         return "com.google.android.apps.photos.content" == uri!!.authority
     }
-
-    companion object {
-        /**
-         * @param uri The Uri to check.
-         * @return Whether the Uri authority is MediaProvider.
-         */
-        fun isMediaDocument(uri: Uri?): Boolean {
-            return "com.android.providers.media.documents" == uri!!.authority
-        }
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    fun isMediaDocument(uri: Uri?): Boolean {
+        return "com.android.providers.media.documents" == uri!!.authority
     }
 }
