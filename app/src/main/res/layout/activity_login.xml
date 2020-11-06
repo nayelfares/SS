@@ -36,7 +36,7 @@
                 android:id="@+id/email"
                 android:layout_marginTop="16dp"
                 android:textSize="14sp"
-                android:text="manager@massage.com"
+                android:text="normal@ssa.com"
                 android:textColor="#000"
                 android:gravity="center"
                 android:textColorHint="#99444444"

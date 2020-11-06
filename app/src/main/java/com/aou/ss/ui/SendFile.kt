@@ -80,7 +80,6 @@ class NewFile : AppCompatActivity() {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
 
-                // TODO handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
                 val contentUri = ContentUris.withAppendedId(
