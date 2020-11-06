@@ -7,4 +7,7 @@ interface SendView {
     fun getUsersOnSuccess(users: ArrayList<User>)
 
     fun getUsersOnFail(message: String)
+    fun uploadFileOnFail(message: String)
+    fun uploadFileOnSuccess()
+
 }
