@@ -24,14 +24,17 @@ class LoginActivity : BaseActivity() ,LoginView {
         val email: AppCompatEditText =findViewById(R.id.email)
         val password: AppCompatEditText =findViewById(R.id.password)
         loginViewModel.login(email.text.toString(),password.text.toString())
+        loading()
     }
 
     override fun onFailer(message: String) {
+        stopLoading()
         showMessage(message)
 
     }
 
     override fun onSuccess(token: String) {
+        stopLoading()
         AuthManager.token="Bearer $token"
         startActivity(Intent(this, MainActivity::class.java))
     }

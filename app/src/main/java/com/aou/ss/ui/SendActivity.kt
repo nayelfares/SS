@@ -1,7 +1,9 @@
 package com.aou.ss.ui
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,11 +14,9 @@ import com.aou.ss.auth.FileUtils
 import com.aou.ss.data.User
 import com.aou.ss.vm.SendViewModel
 import com.blakequ.rsa.FileEncryptionManager
-import com.blakequ.rsa.FileUtils.getBytesFromInputStream
+import kotlinx.android.synthetic.main.activity_send.*
 import java.io.File
 import java.util.*
-import kotlinx.android.synthetic.main.activity_send.*
-import java.io.FileInputStream
 
 
 class SendActivity : BaseActivity() ,SendView{
@@ -28,6 +28,7 @@ class SendActivity : BaseActivity() ,SendView{
     lateinit var sendViewModel: SendViewModel
     lateinit var mFileEncryptionManager: FileEncryptionManager
     lateinit var allUsers:ArrayList<User>
+    var fileUri:Uri?=null
     val PICKFILE_RESULT_CODE=599
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +50,29 @@ class SendActivity : BaseActivity() ,SendView{
         startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
     }
 
+    fun open(v:View){
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val filePath=FileUtils.getRealPath(this,fileUri)!!
+            intent.setDataAndType(fileUri, FileUtils.getMimeType(filePath))
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showMessage("no available app")
+        }
+    }
+
+    fun cancel(v:View){
+        fileName.text="No file selected"
+        close.visibility=View.GONE
+        open.visibility=View.GONE
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==PICKFILE_RESULT_CODE&&resultCode==Activity.RESULT_OK){
+            fileUri=data?.data
             val filePath=FileUtils.getRealPath(this,data!!.data)!!
-            Log.e("filePath",filePath)
             when(FileUtils.getMimeType(filePath).toLowerCase()){
                 "application/pdf" -> {
                     type="pdf"
@@ -73,7 +92,6 @@ class SendActivity : BaseActivity() ,SendView{
                     return
                 }
             }
-            showMessage(type)
             val file=File(filePath)
             fileName.text=file.name
             name=file.name
@@ -82,6 +100,8 @@ class SendActivity : BaseActivity() ,SendView{
             publicKey = mFileEncryptionManager.publicKey
             encFile = File("$filesDir/$name")
            mFileEncryptionManager.encryptFileByPublicKey(file, encFile)
+            close.visibility=View.VISIBLE
+            open.visibility=View.VISIBLE
         }
     }
 
@@ -97,14 +117,21 @@ class SendActivity : BaseActivity() ,SendView{
     }
 
     fun sendFile(v:View){
-        sendViewModel.uploadFile(name,type,encFile,description.text.toString(),publicKey,privateKey)
+        if (close.visibility==View.VISIBLE) {
+            loading()
+            sendViewModel.uploadFile(name, type, encFile, description.text.toString(), publicKey, privateKey)
+        }
+        else
+            showMessage("no file selected")
     }
 
     override fun uploadFileOnFail(message: String) {
+        stopLoading()
         showMessage(message)
     }
 
     override fun uploadFileOnSuccess() {
+        stopLoading()
         finish()
     }
 }
