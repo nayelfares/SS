@@ -14,6 +14,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:background="@color/transparent"
             android:layout_height="?attr/actionBarSize" >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -56,22 +57,41 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:text="My files"
+                    android:id="@+id/myFiles"
+                    android:textSize="14sp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/menu_backgrond"
+                    android:textColor="@drawable/menu_text_color"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="Sent"
                     android:id="@+id/sent"
                     android:textSize="14sp"
                     android:layout_margin="8dp"
-                    android:background="@drawable/button_selected"
-                    android:textColor="@color/colorAccent"
+                    android:background="@drawable/menu_backgrond"
+                    android:textColor="@drawable/menu_text_color"
                     android:gravity="center"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Reveived"
-                    android:id="@+id/reveived"
+                    android:id="@+id/received"
                     android:textSize="14sp"
+                    android:background="@drawable/menu_backgrond"
+                    android:textColor="@drawable/menu_text_color"
                     android:gravity="center"/>
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

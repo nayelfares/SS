@@ -20,4 +20,7 @@ interface RequestInterface {
                    @Query("name") name:String, @Query("type") type:String, @Query("public_key") public_key:String,
                    @Query("private_key") private_key:String, @Query("description") description:String,@Part  path:MultipartBody.Part
     ) : Observable<UploadResponse>
+
+    @GET("media")
+    fun getMyFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
 }
