@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,7 @@ import org.apache.commons.io.IOUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.FileOutputStream
+import java.io.*
 
 
 class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
@@ -56,8 +56,11 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         }
 
         holder.fileIcon.setOnClickListener {
-            download(animal.path.toLink(),position)
-
+            val decFile = File(context.filesDir, fileList[position].name)
+            if (decFile.isFile)
+                open(decFile.absolutePath)
+            else
+                download(animal.path.toLink(),position)
 
         }
     }
@@ -89,15 +92,17 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
                 val file = File(context.filesDir,"temp")
                 try {
 
-                    val fileOutputStream = FileOutputStream(file)
-                    IOUtils.write(response.body()!!.bytes(), fileOutputStream)
+                    writeResponseBodyToDisk(response.body()!!,file.absolutePath)
                 } catch (ex: Exception) {
+                    showToast(context,ex.localizedMessage.toString())
                 }
 
                 val mFileEncryptionManager = FileEncryptionManager.getInstance();
                 mFileEncryptionManager.setRSAKey(fileList[position].public_key,fileList[position].private_key,true)
                 val decFile = File(context.filesDir, fileList[position].name)
                 mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
+                if (decFile.isFile)
+                  Log.e("path",decFile.absolutePath)
                 open(decFile.absolutePath)
             }
         })
@@ -108,9 +113,47 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setDataAndType(Uri.parse(filePath), FileUtils.getMimeType(filePath))
             intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             showToast(context,"no available app")
+        }
+    }
+
+    private fun writeResponseBodyToDisk(body: ResponseBody,path:String): Boolean {
+        return try {
+            val futureStudioIconFile = File(path)
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+            try {
+                val fileReader = ByteArray(4096)
+                val fileSize = body.contentLength()
+                var fileSizeDownloaded: Long = 0
+                inputStream = body.byteStream()
+                outputStream = FileOutputStream(futureStudioIconFile)
+                while (true) {
+                    val read: Int = inputStream.read(fileReader)
+                    if (read == -1) {
+                        break
+                    }
+                    outputStream.write(fileReader, 0, read)
+                    fileSizeDownloaded += read.toLong()
+                    Log.d("TAG", "file download: $fileSizeDownloaded of $fileSize")
+                }
+                outputStream.flush()
+                true
+            } catch (e: IOException) {
+                false
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close()
+                }
+                if (outputStream != null) {
+                    outputStream.close()
+                }
+            }
+        } catch (e: IOException) {
+            false
         }
     }
 }
