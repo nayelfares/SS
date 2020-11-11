@@ -28,6 +28,17 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".NewFile" />
+
+        <provider
+            android:authorities="com.media.shaadoow.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepathes"
+                />
+        </provider>
     </application>
 
 </manifest>
