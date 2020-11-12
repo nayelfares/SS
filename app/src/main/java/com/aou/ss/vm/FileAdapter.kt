@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.aou.ss.MainActivity
 import com.aou.ss.R
 import com.aou.ss.api.MainAPIManager
 import com.aou.ss.auth.FileUtils
@@ -58,10 +59,11 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         }
 
         holder.fileIcon.setOnClickListener {
-            val decFile = File(context.filesDir, fileList[position].name)
-            if (decFile.isFile)
-                open(decFile.absolutePath)
-            else
+//            val decFile = File(context.filesDir, fileList[position].name)
+//            if (decFile.exists())
+//                open(decFile.absolutePath)
+//            else
+            (context as MainActivity).loading()
                 download(animal.path.toLink(),position)
 
         }
@@ -90,7 +92,7 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                showToast(context,"Downloadd")
+                (context as MainActivity).stopLoading()
                 val file = File(context.filesDir,"temp")
                 try {
 

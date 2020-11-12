@@ -3,7 +3,9 @@ package com.aou.ss.ui
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -30,6 +32,7 @@ class SendActivity : BaseActivity() ,SendView{
     lateinit var allUsers:ArrayList<User>
     var fileUri:Uri?=null
     val PICKFILE_RESULT_CODE=599
+    val PERMISSION_CODE  =4004
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send)
@@ -43,11 +46,13 @@ class SendActivity : BaseActivity() ,SendView{
     }
 
     fun select(v: View?) {
-        var chooseFile = Intent(Intent.ACTION_GET_CONTENT)
-        chooseFile.type = "*/*"
-        chooseFile = Intent.createChooser(chooseFile, "Choose a file")
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
+        if (checkPermission(PERMISSION_CODE)) {
+            var chooseFile = Intent(Intent.ACTION_GET_CONTENT)
+            chooseFile.type = "*/*"
+            chooseFile = Intent.createChooser(chooseFile, "Choose a file")
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
+        }
     }
 
     fun open(v:View){
@@ -133,5 +138,37 @@ class SendActivity : BaseActivity() ,SendView{
     override fun uploadFileOnSuccess() {
         stopLoading()
         finish()
+    }
+
+    private fun checkPermission(code: Int): Boolean {
+        if (!(checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED)
+        ) {
+            permissionDialog(code)
+            return false
+        }else{
+            return true
+        }
+
+    }
+
+    private fun permissionDialog(code: Int) {
+            requestPermissions(
+                    arrayOf(
+                            "android.permission.READ_EXTERNAL_STORAGE",
+                            "android.permission.WRITE_EXTERNAL_STORAGE"
+                    ), code
+            )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode==PERMISSION_CODE &&grantResults.isNotEmpty()){
+            var chooseFile = Intent(Intent.ACTION_GET_CONTENT)
+            chooseFile.type = "*/*"
+            chooseFile = Intent.createChooser(chooseFile, "Choose a file")
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
+        }
     }
 }
