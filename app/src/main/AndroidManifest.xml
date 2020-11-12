@@ -30,7 +30,7 @@
         <activity android:name=".NewFile" />
 
         <provider
-            android:authorities="com.media.shaadoow.fileprovider"
+            android:authorities="com.aou.ss.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.aou.ss.R
 import com.aou.ss.api.MainAPIManager
@@ -42,16 +44,16 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         holder.description.text=animal.description
         when(animal.type){
             "pdf"->{
-                holder.fileIcon.setImageDrawable(context.resources.getDrawable(R.drawable.ic_pdf))
+                holder.fileIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_pdf))
             }
             "excel"->{
-                holder.fileIcon.setImageDrawable(context.resources.getDrawable(R.drawable.ic_excel))
+                holder.fileIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_excel))
             }
             "word"->{
-                holder.fileIcon.setImageDrawable(context.resources.getDrawable(R.drawable.ic_word))
+                holder.fileIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_word))
             }
             "image"->{
-                holder.fileIcon.setImageDrawable(context.resources.getDrawable(R.drawable.ic_image))
+                holder.fileIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_image))
             }
         }
 
@@ -111,7 +113,7 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
     fun open(filePath:String){
         try {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(Uri.parse(filePath), FileUtils.getMimeType(filePath))
+            intent.setDataAndType(FileProvider.getUriForFile(context,"com.aou.ss.fileprovider",File(filePath)), FileUtils.getMimeType(filePath))
             intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 
             context.startActivity(intent)
