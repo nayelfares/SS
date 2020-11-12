@@ -17,6 +17,7 @@ import com.aou.ss.data.User
 import com.aou.ss.vm.SendViewModel
 import com.blakequ.rsa.FileEncryptionManager
 import kotlinx.android.synthetic.main.activity_send.*
+import org.jetbrains.anko.doAsync
 import java.io.File
 import java.util.*
 
@@ -104,7 +105,9 @@ class SendActivity : BaseActivity() ,SendView{
             privateKey = mFileEncryptionManager.privateKey
             publicKey = mFileEncryptionManager.publicKey
             encFile = File("$filesDir/$name")
-           mFileEncryptionManager.encryptFileByPublicKey(file, encFile)
+            doAsync {
+                mFileEncryptionManager.encryptFileByPublicKey(file, encFile)
+            }
             close.visibility=View.VISIBLE
             open.visibility=View.VISIBLE
         }
