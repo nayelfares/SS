@@ -62,12 +62,12 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
 
         holder.fileIcon.setOnClickListener {
             val decFile = File(context.filesDir, fileList[position].name)
-            if (decFile.exists())
-                open(decFile.absolutePath)
-            else {
+//            if (decFile.exists())
+//                open(decFile.absolutePath)
+//            else {
                 (context as MainActivity).loading()
                 download(animal.path.toLink(), position)
-            }
+ //           }
 
         }
 
@@ -117,7 +117,7 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
                 val decFile = File(context.filesDir, fileList[position].name)
                 doAsync {
                     mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
-                    (context as MainActivity).stopLoading()
+                    context.stopLoading()
                     open(decFile.absolutePath)
                 }
             }
