@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/transparent"
         android:id="@+id/profileImage"/>
     <TextView
@@ -22,7 +23,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:layout_margin="8dp"
+        android:layout_margin="12dp"
         android:id="@+id/userName"/>
     <Button
         android:layout_width="wrap_content"
@@ -32,4 +33,9 @@
         android:background="@color/transparent"
         android:text="Send"
         android:id="@+id/send"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/black"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
