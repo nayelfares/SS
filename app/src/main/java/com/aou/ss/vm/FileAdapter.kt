@@ -61,14 +61,8 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         }
 
         holder.fileIcon.setOnClickListener {
-            val decFile = File(context.filesDir, fileList[position].name)
-//            if (decFile.exists())
-//                open(decFile.absolutePath)
-//            else {
                 (context as MainActivity).loading()
                 download(animal.path.toLink(), position)
- //           }
-
         }
 
         holder.send.setOnClickListener {
@@ -115,10 +109,14 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
                 val mFileEncryptionManager = FileEncryptionManager.getInstance();
                 mFileEncryptionManager.setRSAKey(fileList[position].public_key,fileList[position].private_key,true)
                 val decFile = File(context.filesDir, fileList[position].name)
-                doAsync {
-                    mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
-                    context.stopLoading()
+                if (decFile.exists())
                     open(decFile.absolutePath)
+                else {
+                    doAsync {
+                        mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
+                        context.stopLoading()
+                        open(decFile.absolutePath)
+                    }
                 }
             }
         })

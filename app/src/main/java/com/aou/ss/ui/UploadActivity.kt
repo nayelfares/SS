@@ -97,6 +97,7 @@ class UploadActivity : BaseActivity() ,UploadView{
                     return
                 }
             }
+            loading()
             val file=File(filePath)
             fileName.text=file.name
             name=file.name
@@ -106,6 +107,7 @@ class UploadActivity : BaseActivity() ,UploadView{
             encFile = File("$filesDir/$name")
             doAsync {
                 mFileEncryptionManager.encryptFileByPublicKey(file, encFile)
+                stopLoading()
             }
             close.visibility=View.VISIBLE
             open.visibility=View.VISIBLE

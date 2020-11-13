@@ -39,6 +39,7 @@ class LoginActivity : BaseActivity() ,LoginView {
         stopLoading()
         AuthManager.token="Bearer $token"
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
 }
