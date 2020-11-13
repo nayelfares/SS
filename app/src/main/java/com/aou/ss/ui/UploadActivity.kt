@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,7 +13,7 @@ import android.widget.Spinner
 import com.aou.ss.R
 import com.aou.ss.auth.FileUtils
 import com.aou.ss.data.User
-import com.aou.ss.vm.SendViewModel
+import com.aou.ss.vm.UploadViewModel
 import com.blakequ.rsa.FileEncryptionManager
 import kotlinx.android.synthetic.main.activity_send.*
 import org.jetbrains.anko.doAsync
@@ -22,13 +21,13 @@ import java.io.File
 import java.util.*
 
 
-class SendActivity : BaseActivity() ,SendView{
+class UploadActivity : BaseActivity() ,UploadView{
     var publicKey=""
     var privateKey=""
     var name=""
     var type=""
     lateinit var encFile : File
-    lateinit var sendViewModel: SendViewModel
+    lateinit var uploadViewModel: UploadViewModel
     lateinit var mFileEncryptionManager: FileEncryptionManager
     lateinit var allUsers:ArrayList<User>
     var fileUri:Uri?=null
@@ -37,8 +36,8 @@ class SendActivity : BaseActivity() ,SendView{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send)
-        sendViewModel= SendViewModel(this,this)
-        sendViewModel.getUsers()
+        uploadViewModel= UploadViewModel(this,this)
+        uploadViewModel.getUsers()
         mFileEncryptionManager = FileEncryptionManager.getInstance()
     }
 
@@ -127,7 +126,7 @@ class SendActivity : BaseActivity() ,SendView{
     fun sendFile(v:View){
         if (close.visibility==View.VISIBLE) {
             loading()
-            sendViewModel.uploadFile(name, type, encFile, description.text.toString(), publicKey, privateKey)
+            uploadViewModel.uploadFile(name, type, encFile, description.text.toString(), publicKey, privateKey)
         }
         else
             showMessage("no file selected")

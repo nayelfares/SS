@@ -10,11 +10,10 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.aou.ss.api.MainAPIManager
 import com.aou.ss.auth.AuthManager
-import com.aou.ss.data.LoginResponse
 import com.aou.ss.data.RequestInterface
 import com.aou.ss.data.UploadResponse
 import com.aou.ss.data.UserResponse
-import com.aou.ss.ui.SendView
+import com.aou.ss.ui.UploadView
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -24,7 +23,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
-class SendViewModel(val sendView: SendView,val context: Context) {
+class UploadViewModel(val uploadView: UploadView, val context: Context) {
     fun getUsers() {
         val apiManager= MainAPIManager().provideRetrofitInterface().create(RequestInterface::class.java)
         val loginVar  = apiManager.getUsers()
@@ -35,11 +34,11 @@ class SendViewModel(val sendView: SendView,val context: Context) {
                     override fun onSubscribe(d: Disposable) { }
                     override fun onNext(t: UserResponse) {
                         if (t.success)
-                            sendView.getUsersOnSuccess(t.data)
+                            uploadView.getUsersOnSuccess(t.data)
                         else
-                            sendView.getUsersOnFail(t.message)                    }
+                            uploadView.getUsersOnFail(t.message)                    }
                     override fun onError(e: Throwable) {
-                        sendView.getUsersOnFail(e.message.toString())
+                        uploadView.getUsersOnFail(e.message.toString())
                     }
                 })
     }
@@ -64,11 +63,11 @@ class SendViewModel(val sendView: SendView,val context: Context) {
                     override fun onSubscribe(d: Disposable) { }
                     override fun onNext(t: UploadResponse) {
                         if (t.success)
-                            sendView.uploadFileOnSuccess()
+                            uploadView.uploadFileOnSuccess()
                         else
-                            sendView.uploadFileOnFail(t.message)                    }
+                            uploadView.uploadFileOnFail(t.message)                    }
                     override fun onError(e: Throwable) {
-                        sendView.uploadFileOnFail(e.message.toString())
+                        uploadView.uploadFileOnFail(e.message.toString())
                     }
                 })
     }

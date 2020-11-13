@@ -3,10 +3,9 @@ package com.aou.ss
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.aou.ss.data.ProjectFile
 import com.aou.ss.ui.BaseActivity
-import com.aou.ss.ui.SendActivity
+import com.aou.ss.ui.UploadActivity
 import com.aou.ss.vm.FileAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -33,7 +32,7 @@ class MainActivity : BaseActivity(),MainView {
     }
 
     fun create(v: View?) {
-        startActivity(Intent(this, SendActivity::class.java))
+        startActivity(Intent(this, UploadActivity::class.java))
     }
 
     override fun getMyFilesOnFail(message: String) {
