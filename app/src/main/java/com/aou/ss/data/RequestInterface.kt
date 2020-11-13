@@ -33,10 +33,10 @@ interface RequestInterface {
     @GET("media")
     fun getMyFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
 
-    @GET("media/sent")
+    @POST("media/sent")
     fun getSentFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
 
-    @GET("media/recived")
+    @POST("media/recived")
     fun getReceivedFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
 
     @POST("transaction")
