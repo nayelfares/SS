@@ -38,6 +38,15 @@
                 android:textStyle="italic"
                 android:layout_marginStart="8dp"
                 android:id="@+id/description"/>
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:id="@+id/send"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_send"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

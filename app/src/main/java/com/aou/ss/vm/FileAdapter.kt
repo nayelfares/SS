@@ -20,10 +20,12 @@ import com.aou.ss.auth.showToast
 import com.aou.ss.auth.toLink
 import com.aou.ss.data.ProjectFile
 import com.aou.ss.data.RequestInterface
+import com.aou.ss.ui.SendActivity
 import com.blakequ.rsa.FileEncryptionManager
 import kotlinx.android.synthetic.main.file_item.view.*
 import okhttp3.ResponseBody
 import org.apache.commons.io.IOUtils
+import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,13 +61,21 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         }
 
         holder.fileIcon.setOnClickListener {
-//            val decFile = File(context.filesDir, fileList[position].name)
-//            if (decFile.exists())
-//                open(decFile.absolutePath)
-//            else
-            (context as MainActivity).loading()
-                download(animal.path.toLink(),position)
+            val decFile = File(context.filesDir, fileList[position].name)
+            if (decFile.exists())
+                open(decFile.absolutePath)
+            else {
+                (context as MainActivity).loading()
+                download(animal.path.toLink(), position)
+            }
 
+        }
+
+        holder.send.setOnClickListener {
+
+            val intent=Intent(context,SendActivity::class.java)
+            intent.putExtra("fileId",animal.id)
+            context.startActivity(intent)
         }
     }
 
@@ -79,6 +89,7 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
         var fileName: TextView=itemView.fileName
         val fileIcon=itemView.typeIcon
         val description =itemView.description
+        val send =itemView.send
 
     }
 
@@ -104,10 +115,11 @@ class FileAdapter(val context:Context,val fileList:ArrayList<ProjectFile>) : Rec
                 val mFileEncryptionManager = FileEncryptionManager.getInstance();
                 mFileEncryptionManager.setRSAKey(fileList[position].public_key,fileList[position].private_key,true)
                 val decFile = File(context.filesDir, fileList[position].name)
-                mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
-                if (decFile.isFile)
-                  Log.e("path",decFile.absolutePath)
-                open(decFile.absolutePath)
+                doAsync {
+                    mFileEncryptionManager!!.decryptFileByPrivateKey(file, decFile)
+                    (context as MainActivity).stopLoading()
+                    open(decFile.absolutePath)
+                }
             }
         })
     }

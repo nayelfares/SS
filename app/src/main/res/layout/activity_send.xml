@@ -5,112 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.SendActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/colorAccent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Send File"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/data"
-            android:layout_marginTop="100dp"
-            android:orientation="vertical">
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:id="@+id/reciever"
-                android:visibility="gone"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:id="@+id/description"
-                android:textColor="@color/black"
-                android:background="@color/white"
-                android:layout_margin="8dp"
-                android:hint="Type File description"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="choose file"
-                android:background="@color/colorPrimary"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="select"
-                android:layout_marginBottom="16dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="no files"
-                    android:id="@+id/fileName"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_margin="8dp"/>
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/close"
-                    android:visibility="gone"
-                    android:onClick="cancel"
-                    android:src="@drawable/ic_close"
-                    android:textSize="12sp"
-                    android:background="@color/transparent"/>
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="1dp"
-                    android:layout_weight="1"
-                    android:onClick="open"
-                    android:visibility="gone"
-                    android:id="@+id/open"
-                    android:src="@drawable/ic_folder_open"
-                    android:background="@color/transparent"/>
-            </LinearLayout>
-        </LinearLayout>
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/usersView"
         android:orientation="vertical"
-        android:layout_below="@+id/data"
-        android:background="@drawable/ic_send">
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:onClick="sendFile"
-            android:layout_marginTop="40dp"
-            android:padding="4dp"
-            android:src="@drawable/ic_upload"
-            android:background="@color/transparent"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="send"
-            android:layout_marginTop="30dp"
-            android:onClick="sendFile"
-            android:background="@color/transparent"
-            android:layout_gravity="bottom"/>
-
-    </LinearLayout>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 </RelativeLayout>

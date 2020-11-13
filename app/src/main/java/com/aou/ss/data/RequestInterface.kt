@@ -16,7 +16,7 @@ interface RequestInterface {
 
     @POST("user-login")
     fun login(@Query("email") email:String,
-                       @Query("password") password:String
+              @Query("password") password:String
     ): Observable<LoginResponse>
 
     @GET("user")
@@ -32,4 +32,15 @@ interface RequestInterface {
 
     @GET("media")
     fun getMyFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
+
+    @GET("media/sent")
+    fun getSentFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
+
+    @GET("media/recived")
+    fun getReceivedFiles(@Header("Authorization")  token:String): Observable<MyFilesResPonse>
+
+    @POST("transaction")
+    fun send(@Header("Authorization")  token:String,@Query("reciver_id") reciver_id:Long,
+             @Query("file_id") file_id:Long
+    ): Observable<UploadResponse>
 }

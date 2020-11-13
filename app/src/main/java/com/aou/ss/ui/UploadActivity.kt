@@ -15,7 +15,7 @@ import com.aou.ss.auth.FileUtils
 import com.aou.ss.data.User
 import com.aou.ss.vm.UploadViewModel
 import com.blakequ.rsa.FileEncryptionManager
-import kotlinx.android.synthetic.main.activity_send.*
+import kotlinx.android.synthetic.main.activity_upload.*
 import org.jetbrains.anko.doAsync
 import java.io.File
 import java.util.*
@@ -35,7 +35,7 @@ class UploadActivity : BaseActivity() ,UploadView{
     val PERMISSION_CODE  =4004
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_send)
+        setContentView(R.layout.activity_upload)
         uploadViewModel= UploadViewModel(this,this)
         uploadViewModel.getUsers()
         mFileEncryptionManager = FileEncryptionManager.getInstance()
