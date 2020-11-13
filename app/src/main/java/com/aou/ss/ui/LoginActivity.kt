@@ -11,6 +11,7 @@ import com.aou.ss.MainActivity
 import com.aou.ss.R
 import com.aou.ss.auth.AuthManager
 import com.aou.ss.vm.LoginViewModel
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() ,LoginView {
     lateinit var loginViewModel: LoginViewModel
@@ -18,6 +19,7 @@ class LoginActivity : BaseActivity() ,LoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         loginViewModel= LoginViewModel(this,this)
+        winter.startWinter()
     }
 
     fun login(v: View?) {

@@ -9,7 +9,7 @@
         app:snowCount="50"
         android:background="@color/colorAccent"
         app:minSize="10"
-        app:maxSize="15"/>
+        app:maxSize="25"/>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
