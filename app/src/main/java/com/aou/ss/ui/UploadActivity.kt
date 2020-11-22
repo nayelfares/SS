@@ -104,7 +104,7 @@ class UploadActivity : BaseActivity() ,UploadView{
             mFileEncryptionManager.generateKey()
             privateKey = mFileEncryptionManager.privateKey
             publicKey = mFileEncryptionManager.publicKey
-            encFile = File("$filesDir/$name")
+            encFile = File("$filesDir/encd$name")
             doAsync {
                 mFileEncryptionManager.encryptFileByPublicKey(file, encFile)
                 stopLoading()
